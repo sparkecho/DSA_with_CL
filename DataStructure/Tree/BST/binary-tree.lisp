@@ -64,3 +64,46 @@
 			   nil
 			   (and (similar (node-l bt1) (node-l bt2))
 					(similar (node-r bt1) (node-r bt2)))))))
+
+
+
+
+;; 返回一棵二叉树中节点的个数
+(defun count-node (bt)
+  (if (null bt)
+	  0
+	  (+ 1
+		 (count-node (node-l bt))
+		 (count-node (node-r bt)))))
+
+
+;; 返回一棵二叉树中边的个数
+(defun count-edge (bt)
+  (1- (count-node bt)))
+
+
+
+;; 打印一棵二叉树中最长的一条路径
+(defun print-path (bt)
+  (format t "~{~A ~}" (longest-path bt)))
+
+
+;; 返回由给定二叉树中最长路径中各个节点元素构成的列表
+(defun longest-path (bt)
+  (if (null bt)
+	  nil
+	  (cons (node-elt bt)
+			(longer-list (longest-path (node-l bt))
+						 (longest-path (node-r bt))))))
+
+
+
+;; 返回给定的两个列表中较长的列表, 若等长则返回第一个
+(defun longer-list (lst1 lst2)
+  (labels ((longer (lst1 lst2)
+			 (cond ((null lst2) 1)
+				   ((null lst1) 2)
+				   (t (longer (cdr lst1) (cdr lst2))))))
+	(if (= (longer lst1 lst2) 1)
+		lst1
+		lst2)))
